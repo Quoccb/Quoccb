@@ -1,0 +1,17 @@
+## 1. Khái niệm RabbitMQ
+
+**AMQP - Advanced Message Queuing Protocol** là một giao thức mã nguồn mở giúp gửi message hiệu quả với độ tin cậy cao giữa các ứng dụng và message broker.
+
+**Message Broker** là phần mềm dùng để giúp các ứng dụng khác nhau có thể giao tiếp với nhau một cách dễ dàng. 3 nhiệm vụ chính mà Message Broker đảm nhận là xác thực, chuyển đổi và định tuyến cho các tin nhắn giữa những ứng dụng với nhau. 
+
+**RabbitMQ** là một **Message Broker** sử dụng giao thức AMQP để phục vụ cho hoạt động trao đổi message giữa các ứng dụng với nhau. RabbitMQ vận chuyển các message và quản lý những message trên hàng đợi.
+
+![rabbitmq](https://teky.edu.vn/blog/wp-content/uploads/2021/10/loi-ich-cua-RabbitMQ-la-gi.jpg)
+
+* Message (tin nhắn) là đơn vị cơ bản để trao đổi thông tin trong RabbitMQ.
+* Producer là một ứng dụng (hoặc phiên bản ứng dụng) gửi message tới RabbitMQ. Đây là điểm khởi đầu trong workflow của RabbitMQ.
+* Binding là các ràng buộc được thiết lập để xác định mối quan hệ giữa exchange và queue. Chúng chỉ định các quy tắc định tuyến để gửi message từ exchange tới queue thích hợp. Một queue có thể liên kết với nhiều exchange và một exchange có thể có nhiều liên kết tới các queue khác nhau.
+* Exchange đóng vai trò như một bộ định tuyến message. Khi producer gửi message tới RabbitMQ, message sẽ được gửi tới exchange. Sau đó, exchange sẽ định tuyến message đến queue thích hợp.
+	* **Direct exchange**: Trong direct exchange, message được định tuyến đến queue dựa trên routing key. Nếu routing key của message khớp với routing key của queue, message sẽ được chuyển đến queue đó. Ngược lại, nếu routing key của message không khớp với bất kỳ routing key của queue nào, message sẽ bị loại bỏ.
+	* **Default exchange**: Là một direct exchange mặc định, được khai báo trước mà không có tên, cho phép định tuyến message trực tiếp tới queue với tên là routing key của message. Mỗi queue đều tự động liên kết với exchange mặc định bằng một routing key giống tên của queue.
+	* **Fanout exchange**: Trong fanout exchange, message được định tuyến đến tất cả các queue được liên kết với nó, bất kể chúng có routing key như nào.
