@@ -22,6 +22,9 @@
 -   **IST Port**  (default: 4568) Dành cho chuyển trạng thái tăng dần.
 -   **SST Port**  (default: 4444) Dành cho tất cả các phương thức  State Snapshot Transfer
 
+**Cluster Failure**: Khi cluster xảy ra lỗi (down node, network partion, ..) MariaDB Cluster sẽ thực hiện cơ chế "quorum calculation" để quyết định partition nào là Primary (Partition có số node lớn hơn 1/2 tổng số node của cluster). Các node không thuộc Primary Partition sẽ chuyển về trạng thái non-Primary (có thể read, không thể write). Sau khi hệ thống trở lại bình thường, cluster sẽ tự động đồng bộ lại data.
+
 MariaDB Galera cluster hỗ trợ Multi-Master bằng cách phát hiện và loại các process gây conflict. Tuy nhiên việc này cũng đồng nghĩa với việc xảy ra hiện tượng dữ liệu bị loại bỏ sẽ không được ghi đầy đủ. Để hạn chế điều đó, Galera  cho phép kích hoạt MySQL tự động commit lại transaction cũ đó với cấu hình `wsrep_retry_autocommit = n`.
 
 ![Retry Autocommit](https://drive.google.com/uc?id=0B05rqFCwNCjkSU1tc0lsMUQtYzQ&export=download)
+
