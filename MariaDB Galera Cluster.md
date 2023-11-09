@@ -24,6 +24,9 @@
 
 **Cluster Failure**: Khi cluster xảy ra lỗi (down node, network partion, ..) MariaDB Cluster sẽ thực hiện cơ chế "quorum calculation" để quyết định partition nào là Primary (Partition có số node lớn hơn 1/2 tổng số node của cluster). Các node không thuộc Primary Partition sẽ chuyển về trạng thái non-Primary (có thể read, không thể write). Sau khi hệ thống trở lại bình thường, cluster sẽ tự động đồng bộ lại data.
 
+Check trạng thái: 
+    SELECT * FROM information_schema.global_status WHERE variable_name IN ('WSREP_CLUSTER_STATUS','WSREP_LOCAL_STATE_COMMENT','WSREP_CLUSTER_SIZE','WSREP_EVS_DELAYED','WSREP_READY');
+
 MariaDB Galera cluster hỗ trợ Multi-Master bằng cách phát hiện và loại các process gây conflict. Tuy nhiên việc này cũng đồng nghĩa với việc xảy ra hiện tượng dữ liệu bị loại bỏ sẽ không được ghi đầy đủ. Để hạn chế điều đó, Galera  cho phép kích hoạt MySQL tự động commit lại transaction cũ đó với cấu hình `wsrep_retry_autocommit = n`.
 
 ![Retry Autocommit](https://drive.google.com/uc?id=0B05rqFCwNCjkSU1tc0lsMUQtYzQ&export=download)
