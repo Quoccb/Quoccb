@@ -42,3 +42,13 @@ Rabbitmq cung cấp 3 cách để tự động xử lý network partition tránh
 *  `pause_minority`: Rabbitmq sẽ tự động dừng các node trong minority partition (Partition có số node nhỏ hơn hoặc bằng tổng số node của cluster).
 * `pause-if-all-down`: Administrator sẽ list ra các node. Rabbitmq sẽ tự động dừng các node bị mất kết nối đến tất cả các node có trong list.
 * `autoheal`: Khi **Partition** xảy ra, Rabbitmq sẽ tự động chọn một "winning partition" và restart tất cả các node **không thuộc** "winning partition". Partition có nhiều client kết nối nhất sẽ được chọn làm winning partition (Nếu số client bằng nhau thì sẽ chọn partition có nhiều node nhất. Nếu số node cũng bằng nhau thì sẽ chọn ngẫu nhiên)
+
+**Khôi phục cluster trong trường hợp tất cả các node down:**
+* Các node down lần lượt: Phải boot node down cuối cùng lên trước tiên, các node còn lại không cần theo thứ tự.
+* Các node down đồng thời hoặc down lần lượt nhưng node down cuối cùng không boot lên được: Cần phải ép một node không phải node down cuối cùng làm khởi điểm để boot lên trước.
+
+      # rabbitmqctl force_boot
+      Forcing boot for Mnesia dir /var/lib/rabbitmq/mnesia/rabbit@rabbit1 ...
+      # service rabbitmq-server start
+      Starting rabbitmq-server: SUCCESS
+      rabbitmq-server.
